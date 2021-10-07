@@ -1,0 +1,5 @@
+{
+  'presets': ['@babel/preset-env']
+}
+
+// this allows to use lastest JS without needing to micromanage which syntax transforms like using arrow functions or ES6
