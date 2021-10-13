@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOBkG_RFx_byc2Qr-3yfusUMakSjSxekc&libraries=places"></script>
+  <title>Travel App</title>
+</head>
+<body>
+  <form onsubmit="return Client.handleSubmit(event)">
+    <label for="city">City</label>
+    <input id="autocomplete" placeholder="Enter your city" type="text" class="form-control" name="location">
+    <input type="" id="city" name="city" />
+    <input type="" id="country" name="country" />
+    <input type="" id="Lat" name="cityLat" />
+    <input type="" id="Lng" name="cityLng" />  
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" min="">
+    <input type="submit" value="Submit">
+
+    
+  </form>
+
+  
+  <section>
+    <table class="result">
+        <tr>
+            <th>Content</th>
+            <th>Api_Return</th>
+        </tr>
+        <tr>
+            <td>Max Temp</td>
+            <td id="max_temp"></td>
+        </tr>
+        <tr>
+            <td>Min_temp</td>
+            <td id="min_temp"></td>
+        </tr>
+        <tr>
+            <td>Location</td>
+            <td id="location"></td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td id="image"></td>
+        </tr>
+    </table>
+</section>
+
+<!-- js function -->
+<script>
+  // new google.maps.places.Autocomplete(
+  //   document.getElementById('autocomplete')
+  // )
+  var date = document.getElementById('date')
+  const today = new Date();
+  const current = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+  date.setAttribute("min", current)
+
+  function initialize() {
+        var options = {
+          types: ['(cities)'],
+          // componentRestrictions: {country: "us"}
+        };
+
+        var input = document.getElementById('autocomplete');
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            console.log(place);
+            document.getElementById('city').value = place.name;
+            document.getElementById('country').value = place.name;
+            document.getElementById('Lat').value = place.geometry.location.lat();
+            document.getElementById('Lng').value = place.geometry.location.lng();
+        });
+    }
+
+  google.maps.event.addDomListener(window, 'load', initialize); 
+</script>
+<!-- Add Google API search box -->
+
+</body>
+</html>
