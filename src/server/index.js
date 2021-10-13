@@ -1,5 +1,10 @@
 const express = require('express')
 const cors = require('cors')
+const axios = require('axios')
+const dotenv = require('dotenv')
+
+// Allow to retrieve data from .env file
+dotenv.config()
 
 // Create an express application
 const app = express()
@@ -30,3 +35,61 @@ app.listen(PORT, function () {
 app.get('/test', function (req, res) {
   res.send('Hello World')
 })
+
+const app_data = {}
+
+app.post('/geonames', async (req, res) => {
+  try {
+    const city = req.body.city
+    const citylat = req.body.citylat
+    const citylng = req.body.citylng
+    console.log(city);
+    console.log(citylat);
+    console.log(citylng);
+    // const getGeonamesResponse = await getGeonames(city)
+    const getweatherResponse = await getweather(citylat, citylng)
+
+    app_data.location = city
+    app_data.max_temp = getweatherResponse.max_temp
+    app_data.min_temp = getweatherResponse.min_temp
+    console.log(app_data);
+    res.send(app_data)
+  } catch (error) {
+    console.log(error);
+  }
+  
+})
+
+const getGeonames = async (city) => {
+  const username = process.env.USER_NAME
+  return await axios({
+      url: `http://api.geonames.org/searchJSON?q=${city}&maxRows=10&username=${username}`})
+      // DO NOT CONVERT to JSON as data is formatted as JSON
+    .then(data => data.data.geonames[0])
+    .catch((err) => console.log(err))
+}
+
+const getweather = async (lat, lng) => {
+  const weatherbit_api = process.env.WEATHERBIT_API
+  return await axios({
+    url: `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&key=${weatherbit_api}`})
+    // .then(res => {
+    //   console.log(res);
+    //   // const weatherIcon = `https://www.weatherbit.io/static/img/icons/${icon}.png`
+    //   return res.data[0]
+    // })
+    .then(data => data.data.data[0])
+    .catch(err => console.log(err))
+}
+
+const getImage = async (name) => {
+  const pixabay_api = process.env.PIXABAY_API
+  // const name = 'london'
+  const response = await axios({
+    url: `https://pixabay.com/api/?key=${pixabay_api}&q=${name}&image_type=photo`
+  })
+  .then(res => {
+    console.log(res);
+    return res
+  })
+}
