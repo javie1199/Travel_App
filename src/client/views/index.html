@@ -8,13 +8,30 @@
   <title>Travel App</title>
 </head>
 <body>
+  <header>
+    <h4>Travel App</h4>
+    <h1>Let's do it together.</h1>
+    <p>We travel the world in search of stories. Come along for the ride.</p>
+    <form onsubmit="return Client.handleSubmit(event)">
+      <input id="autocomplete" placeholder="Add your destination city" type="text" class="form-control" name="location">
+      <input type="hidden" id="city" name="city" />
+      <input type="hidden" id="Lat" name="cityLat" />
+      <input type="hidden" id="Lng" name="cityLng" />  
+      <label for="date">Date</label>
+      <input type="date" id="date" name="date" min="">
+      <input type="submit" value="Submit">
+    </form>
+
+  </header>
+
+
+
   <form onsubmit="return Client.handleSubmit(event)">
     <label for="city">City</label>
     <input id="autocomplete" placeholder="Enter your city" type="text" class="form-control" name="location">
-    <input type="" id="city" name="city" />
-    <input type="" id="country" name="country" />
-    <input type="" id="Lat" name="cityLat" />
-    <input type="" id="Lng" name="cityLng" />  
+    <input type="hidden" id="city" name="city" />
+    <input type="hidden" id="Lat" name="cityLat" />
+    <input type="hidden" id="Lng" name="cityLng" />  
     <label for="date">Date</label>
     <input type="date" id="date" name="date" min="">
     <input type="submit" value="Submit">
@@ -30,6 +47,10 @@
             <th>Api_Return</th>
         </tr>
         <tr>
+          <td>Number of Days</td>
+          <td id="numberOfDays"></td>
+      </tr>
+        <tr>
             <td>Max Temp</td>
             <td id="max_temp"></td>
         </tr>
@@ -43,16 +64,15 @@
         </tr>
         <tr>
             <td>Image</td>
-            <td id="image"></td>
+            <td><img id="image" src="" alt=""></td>
+            <!-- <td id="image"></td> -->
         </tr>
     </table>
 </section>
 
 <!-- js function -->
 <script>
-  // new google.maps.places.Autocomplete(
-  //   document.getElementById('autocomplete')
-  // )
+
   var date = document.getElementById('date')
   const today = new Date();
   const current = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
@@ -70,7 +90,6 @@
             var place = autocomplete.getPlace();
             console.log(place);
             document.getElementById('city').value = place.name;
-            document.getElementById('country').value = place.name;
             document.getElementById('Lat').value = place.geometry.location.lat();
             document.getElementById('Lng').value = place.geometry.location.lng();
         });

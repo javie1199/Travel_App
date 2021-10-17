@@ -1,21 +1,23 @@
 function handleSubmit(event) {
   // The preventDefault() method cancels the event if it is cancelable, meaning that the default action that belongs to the event will not occur.
   event.preventDefault()
-
-  let city = document.getElementById('autocomplete').value
+  let input = document.getElementById('autocomplete').value
+  let city = document.getElementById('city').value
   let citylat = document.getElementById('Lat').value
   let citylng = document.getElementById('Lng').value
   let date = document.getElementById('date').value
 
-  if (city == '') {
-    return alert('Please enter your city')
+  console.log(date);
+
+  if (input == '' || date == '') {
+    return alert('Please enter your city and date')
   }
 
   console.log("::: Form Submitted :::")
 
-  let url = 'http://localhost:8081/geonames'
+  let url = 'http://localhost:8081/api'
   if (process.env.NODE_ENV === "production") {
-    url = '/geonames'
+    url = '/api'
   }
 
   fetch(url, {
