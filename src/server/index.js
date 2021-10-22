@@ -7,6 +7,9 @@ const getWeather = require('./helpers/getWeather')
 const getPixabay = require('./helpers/getPixabay')
 const getNumberOfDays = require('./helpers/dateCalculate')
 
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
 
 // Allow to retrieve data from .env file
 dotenv.config()
@@ -26,6 +29,16 @@ app.use(express.json())
 // recognize the incoming Request Object as strings or arrays
 app.use(express.urlencoded({ extended: false }))
 
+
+app.use(cookieParser('secret'));
+app.use(session({cookie: { maxAge: 60000 }}));
+app.use(flash());
+
+app.get('/flash', function(req, res){
+  req.flash('Error', 'Please enter a valid city');
+  // res.render('dist/index.html')
+});
+
 app.get('/', (req, res) => {
   res.sendFile('dist/index.html')
 })
@@ -38,7 +51,8 @@ app.listen(PORT, function () {
 
 
 app.get('/test', function (req, res) {
-  res.send('Hello World')
+  // res.send('Hello World')
+  res.send(JSON.stringify(req.flash('test')));
 })
 
 const app_data = {}
@@ -67,7 +81,8 @@ app.post('/api', async (req, res) => {
     app_data.numberOfDays = getNumberOfDays(date)
     app_data.maxTemp = getweatherResponse.max_temp
     app_data.lowTemp = getweatherResponse.low_temp
-    app_data.description = getweatherResponse.weather.description  
+    app_data.description = getweatherResponse.weather.description
+    // app_data.message = ''
 
     
     console.log(citylat);
@@ -77,6 +92,7 @@ app.post('/api', async (req, res) => {
     res.send(app_data)
   } catch (error) {
     console.log(error);
+    res.json({message: 'Please enter a valid city'})
   }
   
 })

@@ -11,9 +11,7 @@
   <title>Travel App</title>
 </head>
 <body>
-  {{#if true}}
-      <p>Hello World</p>
-  {{/if}}
+  <div class="alert alert-danger text-center" role="alert" id='message'></div>
   <header class="px-4 py-5 my-5 text-center">
     <h4>Travel App</h4>
     <h1>Let's do it together.</h1>
@@ -65,10 +63,10 @@
   const current = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
   date.setAttribute("min", current)
 
-  function initialize() {
+  function initialize(event) {
+        event.preventDefault()
         var options = {
           types: ['(cities)'],
-          // componentRestrictions: {country: "us"}
         };
 
         var input = document.getElementById('autocomplete');

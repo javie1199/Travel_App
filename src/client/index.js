@@ -7,6 +7,7 @@ import { dayCount } from './js/dayCount'
 import './styles/header.scss'
 import './styles/body.scss'
 import './styles/weather.scss'
+import './styles/message.scss'
 
 // export js files for using from Client library which is set up in webpack config.
 export {
