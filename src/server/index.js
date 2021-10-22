@@ -4,6 +4,9 @@ const axios = require('axios')
 const dotenv = require('dotenv')
 
 const getWeather = require('./helpers/getWeather')
+const getPixabay = require('./helpers/getPixabay')
+const getNumberOfDays = require('./helpers/dateCalculate')
+
 
 // Allow to retrieve data from .env file
 dotenv.config()
@@ -47,20 +50,30 @@ app.post('/api', async (req, res) => {
     const citylng = req.body.citylng
     const date = req.body.date
 
+
     // const getGeonamesResponse = await getGeonames(city)
 
     //fetching weatherBit api
-    const getweatherResponse = await getweather(citylat, citylng)
+    const getweatherResponse = await getWeather(citylat, citylng)
 
     //fetching Pixabay api
     const getPixabayResponse = await getPixabay(city)
 
     app_data.location = city
-    app_data.max_temp = getweatherResponse.max_temp
-    app_data.min_temp = getweatherResponse.min_temp
+    app_data.temp = getweatherResponse.temp
     app_data.image = getPixabayResponse.webformatURL
+    app_data.dateTime = getweatherResponse.datetime
+    app_data.icon = getweatherResponse.weather.icon
     app_data.numberOfDays = getNumberOfDays(date)
+    app_data.maxTemp = getweatherResponse.max_temp
+    app_data.lowTemp = getweatherResponse.low_temp
+    app_data.description = getweatherResponse.weather.description  
 
+    
+    console.log(citylat);
+    console.log(citylng);
+    console.log(getweatherResponse.weather.icon);
+  
     res.send(app_data)
   } catch (error) {
     console.log(error);
@@ -68,49 +81,3 @@ app.post('/api', async (req, res) => {
   
 })
 
-// const getGeonames = async (city) => {
-//   const username = process.env.USER_NAME
-//   return await axios({
-//       url: `http://api.geonames.org/searchJSON?q=${city}&maxRows=10&username=${username}`})
-//       // DO NOT CONVERT to JSON as data is formatted as JSON
-//     .then(data => data.data.geonames[0])
-//     .catch((err) => console.log(err))
-// }
-
-// const getweather = async (lat, lng) => {
-//   const weatherbit_api = process.env.WEATHERBIT_API
-//   return await axios({
-//     url: `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lng}&key=${weatherbit_api}`})
-//     // .then(res => {
-//     //   console.log(res);
-//     //   // const weatherIcon = `https://www.weatherbit.io/static/img/icons/${icon}.png`
-//     //   return res.data[0]
-//     // })
-//     .then(data => data.data.data[0])
-//     .catch(err => console.log(err))
-// }
-
-// const getPixabay = async (city) => {
-//   const pixabay_api = process.env.PIXABAY_API
-//   return await axios({
-//     url: `https://pixabay.com/api/?key=${pixabay_api}&q=${city}&image_type=photo&orientation=horizontal&safesearch=true&category=places`
-//   })
-//     .then(data => data.data.hits[0])   
-//     .catch(err => console.log(err))
-// }
-
-// const getNumberOfDays = (date) => {
-//   const currentDate = new Date(Date.now())
-//   const departDate = new Date(date);
-
-//   // One day in milliseconds
-//   const oneDay = 1000 * 60 * 60 * 24;
-
-//   // Calculating the time difference between two dates
-//   const diffInTime = departDate.getTime() - currentDate.getTime();
-
-//   // Calculating the no. of days between two dates
-//   const diffInDays = Math.round(diffInTime / oneDay);
-
-//   return diffInDays;
-// }
