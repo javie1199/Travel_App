@@ -1,5 +1,4 @@
 const getNumberOfDays = (date) => {
-  // console.log(date);
   const currentDate = new Date(Date.now())
   const departDate = new Date(date);
 
@@ -14,10 +13,5 @@ const getNumberOfDays = (date) => {
 
   return diffInDays;
 }
-
-// month-day-year
-// console.log(getNumberOfDays("2021-10-22")) //0
-// console.log(getNumberOfDays("2021-10-23"))  //1
-// console.log(getNumberOfDays("2021-10-21"))  //-1
 
 module.exports = getNumberOfDays

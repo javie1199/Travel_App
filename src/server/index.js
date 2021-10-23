@@ -66,12 +66,6 @@ app.post('/api', async (req, res) => {
     app_data.maxTemp = getweatherResponse.max_temp
     app_data.lowTemp = getweatherResponse.low_temp
     app_data.description = getweatherResponse.weather.description
-    // app_data.message = ''
-
-    
-    // console.log(citylat);
-    // console.log(citylng);
-    // console.log(getweatherResponse.weather.icon);
   
     res.send(app_data)
   } catch (error) {

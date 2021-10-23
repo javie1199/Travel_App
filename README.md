@@ -34,7 +34,7 @@ The application takes in two inputs from the user including City and Date, in or
 5. Service Worker
 
 ## Live Demo
-... processing
+https://travel-app-jon-tran.herokuapp.com/
 
 ## Author
 Jon Tran 😊

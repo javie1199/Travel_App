@@ -7,13 +7,11 @@ function handleSubmit(event) {
   let citylng = document.getElementById('Lng').value
   let date = document.getElementById('date').value
 
-  console.log(date);
-
   if (input == '' || date == '') {
     return alert('Please enter your city and date')
   }
 
-  console.log("::: Form Submitted :::")
+  // console.log("::: Form Submitted :::")
 
   let url = 'http://localhost:8081/api'
   if (process.env.NODE_ENV === "production") {

@@ -1,5 +1,4 @@
 const dayCount = (number) => {
-  console.log(number);
   if (number === 1) {
     return 'tomorrow.'
   }
