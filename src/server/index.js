@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 
 const getWeather = require('./helpers/getWeather')
 const getPixabay = require('./helpers/getPixabay')
+const getGeonames = require('./helpers/getGeonames')
 const getNumberOfDays = require('./helpers/dateCalculate')
 
 
@@ -44,15 +45,15 @@ const app_data = {}
 app.post('/api', async (req, res) => {
   try {
     const city = req.body.city
-    const citylat = req.body.citylat
-    const citylng = req.body.citylng
+    // const citylat = req.body.citylat
+    // const citylng = req.body.citylng
     const date = req.body.date
 
-
-    // const getGeonamesResponse = await getGeonames(city)
+    // fetching geonames api
+    const getGeonamesResponse = await getGeonames(city)
 
     //fetching weatherBit api
-    const getweatherResponse = await getWeather(citylat, citylng)
+    const getweatherResponse = await getWeather(getGeonamesResponse.lat, getGeonamesResponse.lng)
 
     //fetching Pixabay api
     const getPixabayResponse = await getPixabay(city)
